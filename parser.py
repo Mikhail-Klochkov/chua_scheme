@@ -1,39 +1,3 @@
-r"""Argument parser for testing chaotic attractor.
-
-------------------------------------------------------------------------
-
-GNU GENERAL PUBLIC LICENSE
-Version 3, 29 June 2007
-
-Copyright (c) 2019 Kapitanov Alexander
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
-APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
-HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT
-WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT
-NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND
-PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE
-DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR
-OR CORRECTION.
-
-------------------------------------------------------------------------
-"""
-
-# Authors       : Alexander Kapitanov
-# ...
-# Contacts      : <empty>
-# ...
-# Release Date  : 2020/07/30
-# License       : GNU GENERAL PUBLIC LICENSE
 
 import argparse
 from typing import Optional, Sequence, Tuple, Union
@@ -63,39 +27,7 @@ DEFAULT_PARAMETERS = {
 
 
 class Settings:
-    r"""Attributes collection for chaotic system.
 
-    Attributes
-    ----------
-
-    attractor : Optional[AttractorType]
-        Chaotic model.
-
-    points : step
-        Number of points for 3D system.
-
-    step : float
-        Step for diff. equations.
-
-    show_timeplot : bool
-        Show time plots
-
-    show_spectrum : bool
-        Show spectrum plots
-
-    show_3d_plots : bool
-        Show 3D plots
-
-    show_all : bool
-        Show all plots
-
-    show_plots : bool
-        Show plots after calculations: True / False.
-
-    save_plots : bool
-        Save plots after calculations: True / False.
-
-    """
     __model_map = {
         "lorenz": Lorenz,
         "rossler": Rossler,
@@ -143,15 +75,7 @@ class Settings:
         return self._model
 
     def update_params(self, input_args: Optional[Sequence[str]] = None):
-        r"""Update class attributes from command line parser.
-        Kwargs is a dictionary, and it can have some parameters for chaotic model.
 
-        Parameters
-        ----------
-        input_args : tuple
-            Tuple of strings for input arguments. Example: ("--show_plots", "--step", "1000", "lorenz")
-
-        """
         args_dict = self.parse_arguments(input_args=input_args, show_args=self.show_logs, show_help=self.show_help)
         for item in args_dict:
             if hasattr(self, item) and item is not None:
@@ -172,56 +96,7 @@ class Settings:
     def parse_arguments(
         self, input_args: Optional[Sequence[str]] = None, show_help: bool = False, show_args: bool = False
     ) -> dict:
-        """This method is the useful command line helper. You can use it with command line arguments.
 
-        Parameters
-        ----------
-        input_args : tuple
-
-        show_help : bool
-            Show help of argument parser.
-
-        show_args : bool
-            Display arguments and their values as {key : item}
-
-        Returns
-        -------
-        arguments : dict
-            Parsed arguments from command line. Note: some arguments are positional.
-
-        Examples
-        --------
-        >>> from src.utils.parser import Settings
-        >>> settings = Settings()
-        >>> command_line_str = "lorenz",
-        >>> test_args = settings.parse_arguments(command_line_str, show_args=True)
-        [INFO]: Cmmaind line arguments:
-        points         = 1024
-        step           = 100
-        init_point     = (0.1, -0.1, 0.1)
-        show_plots     = False
-        save_plots     = False
-        add_2d_gif     = False
-        attractor      = lorenz
-        sigma          = 10
-        beta           = 2.6666666666666665
-        rho            = 28
-
-        >>> command_line_str = "--show_plots rossler --a 2 --b 4".split()
-        >>> test_args = settings.parse_arguments(command_line_str, show_args=True)
-        [INFO]: Cmmaind line arguments:
-        points         = 1024
-        step           = 100
-        init_point     = (0.1, -0.1, 0.1)
-        show_plots     = True
-        save_plots     = False
-        add_2d_gif     = False
-        attractor      = rossler
-        a              = 2.0
-        b              = 4.0
-        c              = 5.7
-
-        """
         parser = argparse.ArgumentParser(
             description="Specify command line arguments for dynamic system."
             "Calculate some math parameters and plot some graphs of a given chaotic system."
@@ -303,8 +178,4 @@ class Settings:
 
 if __name__ == "__main__":
     import doctest
-
     doctest.testmod(verbose=True)
-    # command_line = "--init_point", '0 -1 2', "lorenz"
-    # params = Settings(show_logs=True, show_help=True)
-    # params.update_params(input_args=command_line)
